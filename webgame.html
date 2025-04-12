@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Scripture Challenge Game</title>
+  <style>
+    body {
+      font-family: 'Georgia', serif;
+      background: linear-gradient(to bottom right, #2c3e50, #34495e);
+      color: #f1f1f1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      height: 100vh;
+    }
+    .game-box {
+      background-color: rgba(0, 0, 0, 0.5);
+      padding: 2rem;
+      border-radius: 12px;
+      text-align: center;
+      max-width: 500px;
+      width: 90%;
+    }
+    input, button {
+      padding: 0.5rem;
+      font-size: 1rem;
+      margin: 0.5rem;
+      border-radius: 5px;
+      border: none;
+    }
+    input {
+      width: 70%;
+    }
+    button {
+      background-color: #FFD700;
+      color: black;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .score {
+      margin-top: 1rem;
+      font-weight: bold;
+    }
+    .back-link {
+      margin-top: 2rem;
+      display: inline-block;
+      color: #FFD700;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="game-box">
+    <h1>Scripture Challenge</h1>
+    <p id="hint">Loading challenge...</p>
+    <input type="text" id="answerInput" placeholder="Enter your guess..." />
+    <button onclick="checkAnswer()">Submit</button>
+    <p class="score" id="scoreText"></p>
+    <a href="scratch.html" class="back-link">← Back to Scratch Page</a>
+  </div>
+
+  <script>
+    const challenges = [
+      { hint: "I split the Red Sea.", answer: "moses" },
+      { hint: "I built an ark.", answer: "noah" },
+      { hint: "I was swallowed by a big fish.", answer: "jonah" },
+      { hint: "I translated the Book of Mormon.", answer: "joseph smith" },
+      { hint: "I offered my son Isaac as a sacrifice.", answer: "abraham" },
+      { hint: "I denied Christ three times.", answer: "peter" },
+      { hint: "I led the people across the wilderness for 40 years.", answer: "moses" },
+      { hint: "I was the first king of Israel.", answer: "saul" }
+    ];
+
+    let currentIndex = 0;
+    let score = 0;
+
+    function showChallenge() {
+      if (currentIndex < challenges.length) {
+        document.getElementById("hint").textContent = challenges[currentIndex].hint;
+        document.getElementById("answerInput").value = "";
+        document.getElementById("scoreText").textContent = `Score: ${score}/${challenges.length}`;
+      } else {
+        document.getElementById("hint").textContent = "Well done! You've completed the challenge.";
+        document.getElementById("answerInput").style.display = "none";
+        document.querySelector("button").style.display = "none";
+        document.getElementById("scoreText").textContent = `Final Score: ${score}/${challenges.length}`;
+      }
+    }
+
+    function checkAnswer() {
+      const input = document.getElementById("answerInput").value.trim().toLowerCase();
+      const correctAnswer = challenges[currentIndex].answer;
+
+      if (input === correctAnswer) {
+        score++;
+        alert("Correct!");
+      } else {
+        alert(`Wrong! The correct answer was "${correctAnswer}".`);
+      }
+
+      currentIndex++;
+      showChallenge();
+    }
+
+    window.onload = showChallenge;
+  </script>
+</body>
+</html>
